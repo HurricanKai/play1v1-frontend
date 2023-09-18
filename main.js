@@ -6,7 +6,7 @@ const worker = new Worker(new URL('/arena-worker.js', import.meta.url));
 import Clerk from '@clerk/clerk-js';
 
 console.log("Loading Clerk");
-const clerkFrontendApi = `pk_test_aG9uZXN0LWtvaS02OC5jbGVyay5hY2NvdW50cy5kZXYk`;
+const clerkFrontendApi = `pk_live_Y2xlcmsucGxheTF2MS5wcm8k`;
 const clerk = new Clerk(clerkFrontendApi);
 clerk.addListener((r) => {
   r.session.getToken().then((token) => {
@@ -16,7 +16,6 @@ clerk.addListener((r) => {
   });
 });
 
-console.log("23");
 await clerk.load({
 });
 

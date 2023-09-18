@@ -55,7 +55,7 @@ onmessage = (ev) => {
       }
     };
 
-    let socket = new Socket("ws://localhost:4000/socket", {
+    let socket = new Socket("wss://play1v1.fly.dev/socket", {
       params: { token },
     });
 
