@@ -12,6 +12,7 @@
     "vite": "^4.4.5"
   },
   "dependencies": {
+    "@clerk/clerk-js": "^4.57.0",
     "phoenix": "^1.7.7"
   }
 }
