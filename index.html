@@ -4,33 +4,26 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite App</title>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+    <title>Play1v1.pro</title>
   </head>
   <body>
-    <div
-      style="background-color: black; color: white; height: 100%; width: 100%"
-    >
-      <svg
-        style="
-          display: block;
-          border-width: 1px;
-          border-color: rgb(14 165 233);
-          border-style: solid;
-          box-sizing: border-box;
-          width: calc(min(100vh, 100vw));
-          height: calc(min(100vh, 100vw));
-          margin: auto;
-          transition-property: transform;
-          transition-duration: 0.3s;
-        "
-        viewbox="0 0 400 400"
-      >
-        <g id="player-group"></g>
-        <g id="counter-group"></g>
-        <g id="bullet-group"></g>
-        <g id="impact-group"></g>
-      </svg>
+    <!-- This is just here to make devtools not fuck me -->
+    <div id="body">
+      <div id="container">
+        <div id="profile" x-data>
+          <div x-show="!$store.profile.user">Loading...</div>
+          <template x-if="$store.profile.user">
+            <span x-text="$store.profile.user.username"></span>
+          </template>
+        </div>
+        <button id="queuebtn">Loading..</button>
+      </div>
     </div>
-    <script type="module" src="/main.js"></script>
+    <script type="module" src="/index.js"></script>
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
+    ></script>
   </body>
 </html>

@@ -2,6 +2,7 @@
 /// <reference lib="esnext" />
 /// <reference lib="webworker" />
 import { Socket } from "phoenix";
+import { wsEndpoint } from "./config";
 
 let controls = {
   accelerate: false,
@@ -11,13 +12,15 @@ let controls = {
   is_firing: false,
 };
 
+let arenaId;
 onmessage = (ev) => {
   let token;
   let { type, payload } = ev.data;
 
-  if (type === "set-token") {
-    console.log("Got token!")
-    token = payload;
+  if (type === "setup") {
+    console.log("Got Setup!")
+    token = payload.token;
+    arenaId = payload.arenaId;
 
     onmessage = (ev) => {
       let { type, payload } = ev.data;
@@ -55,14 +58,14 @@ onmessage = (ev) => {
       }
     };
 
-    let socket = new Socket("wss://play1v1.fly.dev/socket", {
+    let socket = new Socket(wsEndpoint, {
       params: { token },
     });
 
     let arenaChannel;
     let gameState;
     socket.onOpen(() => {
-      let arena = socket.channel("arena:123");
+      let arena = socket.channel("arena:" + arenaId);
       arena.onClose(() => socket.disconnect());
       arena.onError((e) => console.error("Arena", e));
       arena.on("full_state", (payload) => {
@@ -83,6 +86,12 @@ onmessage = (ev) => {
         };
 
         flushGameState();
+      });
+      arena.on("game_done", ({loser: loser_id}) => {
+        socket.disconnect();
+        // Like, post a message here that
+        // a) makes the page redirect somewhere else
+        // b) makes the page expect the "close" event.
       });
       arena.join();
       arenaChannel = arena;

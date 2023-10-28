@@ -1,25 +1,23 @@
+const params = new URLSearchParams(window.location.search);
+const arenaId = params.get('arenaId');
+if (!arenaId) {
+  console.warn("No Arena ID");
+  window.location.assign("/");
+}
+
 import './style.css'
-
-
-const worker = new Worker(new URL('/arena-worker.js', import.meta.url));
-
+import { clerkKey } from "./config";
 import Clerk from '@clerk/clerk-js';
 
+const worker = new Worker(new URL('/arena-worker.js', import.meta.url));
 console.log("Loading Clerk");
-const clerkFrontendApi = `pk_live_Y2xlcmsucGxheTF2MS5wcm8k`;
-const clerk = new Clerk(clerkFrontendApi);
-clerk.addListener((r) => {
-  r.session.getToken().then((token) => {
-    if (worker) {
-      worker.postMessage({type: "set-token", payload: token});
-    }
-  });
-});
-
+const clerk = new Clerk(clerkKey);
 await clerk.load({
 });
 
+
 if (!clerk.user) {
+  console.warn("Redirecting to Login");
   let url = clerk.buildSignInUrl();
   window.location.assign(url);
   console.log("Redirecting...", url);
@@ -27,7 +25,7 @@ if (!clerk.user) {
 else {
   console.log("Getting Token")
   clerk.session.getToken().then(token => {
-    worker.postMessage({type: "set-token", payload: token});
+    worker.postMessage({type: "setup", payload: {token, arenaId}});
     console.log("Worker sended token");
   });
 
@@ -49,6 +47,7 @@ else {
     let {type, payload} = ev.data;
     if (type === "close") {
       worker.terminate();
+      console.warn("Redirecting to home as worker crashed");
       window.location.assign("/");
     }
     else if(type === "render-update") {
@@ -58,7 +57,7 @@ else {
       counter_group.innerHTML = impact_counter;
       bullet_group.innerHTML = bullets;
       impact_group.innerHTML = impacts;
-    }else {
+    } else {
       console.error("Invalid frontend message", {type, payload});
     }
   });
