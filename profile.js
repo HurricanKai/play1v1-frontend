@@ -1,31 +1,40 @@
-
-import Clerk from '@clerk/clerk-js';
+import Clerk from "@clerk/clerk-js";
 import { clerkKey } from "./config";
 
 var clerk;
-document.addEventListener('alpine:init', () => {
-    Alpine.store('profile', {
-        user: undefined
-    });
-})
+document.addEventListener("alpine:init", () => {
+  Alpine.store("profile", {
+    user: undefined,
+  });
+});
 
 var onProfileLoad = undefined;
 
 export const profileLoaded = new Promise((r) => {
-    onProfileLoad = r;
+  onProfileLoad = r;
 });
 
 clerk = new Clerk(clerkKey);
-await clerk.load({
-});
+await clerk.load({});
 
 if (!clerk.session) {
   let url = clerk.buildSignInUrl();
-  window.location.assign(url);
-  console.log("Redirecting...", url);
+  const queuebtn = document.getElementById("queuebtn");
+  if (queuebtn) {
+    queuebtn.onclick = function (e) {
+        e.preventDefault();
+        window.location.assign(url);
+    };
+    queuebtn.disabled = false;
+    queuebtn.textContent = "Press to Login";
+  }
+  else {
+    window.location.assign(url);
+    console.log("Redirecting...", url);
+  }
+} else {
+    onProfileLoad(clerk.session);
+    Alpine.store("profile").user = clerk.session.user;
+
+    clerk.session.user.username;
 }
-
-onProfileLoad(clerk.session);
-Alpine.store('profile').user = clerk.session.user;
-
-clerk.session.user.username
