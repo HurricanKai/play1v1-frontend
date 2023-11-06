@@ -33,6 +33,7 @@ if (!clerk.session) {
     console.log("Redirecting...", url);
   }
 } else {
+    plausible('Login');
     onProfileLoad(clerk.session);
     Alpine.store("profile").user = clerk.session.user;
 

@@ -41,6 +41,7 @@ socket.onOpen(() => {
         e.preventDefault();
         if (in_progress) return;
         in_progress = true;
+        plausible('Start Matchmaking');
 
         // TODO: Update Visuals, add spinner, etc.
         channel.push("start-matchmaking", {});
@@ -59,6 +60,7 @@ socket.onOpen(() => {
 
   channel.on("join-arena", ({ arena_id: arena_id }) => {
     queuebtn.textContent = "Found Game...";
+    plausible('Play Game');
     // TODO: Preload page
     socket.disconnect();
     redirectingToGame = true;

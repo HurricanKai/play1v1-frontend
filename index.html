@@ -28,7 +28,14 @@
     <script
       defer
       data-domain="play1v1.pro"
-      src="https://plausible.io/js/script.js"
+      src="https://plausible.io/js/script.tagged-events.js"
     ></script>
+    <script>
+      window.plausible =
+        window.plausible ||
+        function () {
+          (window.plausible.q = window.plausible.q || []).push(arguments);
+        };
+    </script>
   </body>
 </html>
