@@ -11,9 +11,6 @@ let has_enabled_queuebtn = false;
 let redirectingToGame = false;
 const queuebtn = document.getElementById("queuebtn");
 
-queuebtn.disabled = true;
-queuebtn.textContent = "Authenticating...";
-
 /** @type {ActiveSessionResource} */
 const session = await profileLoaded;
 
