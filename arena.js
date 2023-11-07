@@ -9,6 +9,8 @@ import './style.css'
 import { clerkKey } from "./config";
 import Clerk from '@clerk/clerk-js';
 
+let stopped = false;
+
 const worker = new Worker(new URL('/arena-worker.js', import.meta.url));
 console.log("Loading Clerk");
 const clerk = new Clerk(clerkKey);
@@ -31,6 +33,9 @@ else {
 
 
   document.addEventListener("keydown",function(e){
+      if (e.code === "KeyR") {
+        stopped = !stopped;
+      }
       worker.postMessage({type: "keydown", payload: e.code});
   });
 
@@ -51,6 +56,7 @@ else {
       window.location.assign("/");
     }
     else if(type === "render-update") {
+      if (stopped) return;
       let {players, bullets, impacts, impact_counter} = payload;
 
       player_group.innerHTML = players;
