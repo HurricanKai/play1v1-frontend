@@ -31,6 +31,17 @@ body {
     width: fit-content;
 }
 
+
+#matchmakerconfig {
+    all: unset;
+    background-color: #222222;
+    padding: 32px;
+    border-radius: 5px;
+    color: white;
+    font-size: xx-large;
+    width: fit-content;
+}
+
 #queuebtn {
     all: unset;
     background-color: #8080ff;

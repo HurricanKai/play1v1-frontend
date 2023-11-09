@@ -23,6 +23,21 @@
             <span x-text="$store.profile.user.username"></span>
           </template>
         </div>
+        <div id="matchmakerconfig" x-data>
+          <div x-show="!$store.Matchmaker.config">Loading...</div>
+          <template x-if="$store.Matchmaker.config">
+            <p>
+              Socket Node:<span
+                x-text="$store.Matchmaker.config.socket_node"
+              ></span>
+            </p>
+            <p>
+              Matchmaker Node:<span
+                x-text="$store.Matchmaker.config.matchmaker_node"
+              ></span>
+            </p>
+          </template>
+        </div>
         <button id="queuebtn" disabled="true">Loading..</button>
       </div>
     </div>

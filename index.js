@@ -29,6 +29,7 @@ socket.onOpen(() => {
   channel = socket.channel("matchmaking");
   channel.on("config", (config) => {
     m_config = config;
+    Alpine.store("matchmaker").config = config;
 
     if (!has_enabled_queuebtn) {
       has_enabled_queuebtn = true;
