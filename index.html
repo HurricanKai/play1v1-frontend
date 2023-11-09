@@ -24,16 +24,16 @@
           </template>
         </div>
         <div id="matchmakerconfig" x-data>
-          <div x-show="!$store.Matchmaker.config">Loading...</div>
-          <template x-if="$store.Matchmaker.config">
+          <div x-show="!$store.matchmaker.config">Loading...</div>
+          <template x-if="$store.matchmaker.config">
             <p>
               Socket Node:<span
-                x-text="$store.Matchmaker.config.socket_node"
+                x-text="$store.matchmaker.config.socket_node"
               ></span>
             </p>
             <p>
               Matchmaker Node:<span
-                x-text="$store.Matchmaker.config.matchmaker_node"
+                x-text="$store.matchmaker.config.matchmaker_node"
               ></span>
             </p>
           </template>
