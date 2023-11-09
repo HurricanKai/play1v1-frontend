@@ -6,7 +6,7 @@ import { profileLoaded } from "./profile";
 
 document.addEventListener("alpine:init", () => {
   Alpine.store("matchmaker", {
-    config: undefined,
+    config: m_config,
   });
 });
 
@@ -35,7 +35,9 @@ socket.onOpen(() => {
   channel = socket.channel("matchmaking");
   channel.on("config", (config) => {
     m_config = config;
-    Alpine.store("matchmaker").config = config;
+    if (Alpine) {
+      Alpine.store("matchmaker").config = config;
+    }
 
     if (!has_enabled_queuebtn) {
       has_enabled_queuebtn = true;
