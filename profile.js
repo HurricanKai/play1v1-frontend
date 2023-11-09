@@ -6,6 +6,9 @@ document.addEventListener("alpine:init", () => {
   Alpine.store("profile", {
     user: undefined,
   });
+  Alpine.store("matchmaker", {
+    config: m_config,
+  });
 });
 
 var onProfileLoad = undefined;

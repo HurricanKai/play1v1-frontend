@@ -4,12 +4,6 @@ import { Socket } from "phoenix";
 import { wsEndpoint } from "./config";
 import { profileLoaded } from "./profile";
 
-document.addEventListener("alpine:init", () => {
-  Alpine.store("matchmaker", {
-    config: m_config,
-  });
-});
-
 let m_state = undefined;
 let m_config;
 let in_progress = false;
