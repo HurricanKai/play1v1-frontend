@@ -7,7 +7,7 @@ document.addEventListener("alpine:init", () => {
     user: undefined,
   });
   Alpine.store("matchmaker", {
-    config: m_config,
+    config: undefined,
   });
 });
 
