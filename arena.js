@@ -28,7 +28,6 @@ else {
   console.log("Getting Token")
   clerk.session.getToken().then(token => {
     worker.postMessage({type: "setup", payload: {token, arenaId}});
-    console.log("Worker sended token");
   });
 
 
@@ -64,6 +63,7 @@ else {
       impact_group.innerHTML = impacts;
     }
     else if (type === "game-done") {
+      console.log("Game Over. Redirecting...");
       game_done = true;
       let {loser} = payload;
       worker.terminate();
@@ -73,5 +73,4 @@ else {
       console.error("Invalid frontend message", {type, payload});
     }
   });
-  console.log(worker);
 }
