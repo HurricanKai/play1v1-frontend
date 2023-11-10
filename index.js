@@ -54,6 +54,8 @@ socket.onOpen(() => {
   });
 
   channel.on("begin-accept-game", (body) => {
+    queuebtn.textContent = "Accepting Game...";
+    queuebtn.disabled = true;
     // TODO: Make the user accept the game
     channel.push("end-accept-game", body);
   });
