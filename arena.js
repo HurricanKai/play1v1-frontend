@@ -15,6 +15,8 @@ const clerk = new Clerk(clerkKey);
 await clerk.load({
 });
 
+let game_done = false;
+
 
 if (!clerk.user) {
   console.warn("Redirecting to Login");
@@ -46,6 +48,9 @@ else {
   worker.onmessage = ((ev) => {
     let {type, payload} = ev.data;
     if (type === "close") {
+      if (game_done) {
+        return;
+      }
       worker.terminate();
       console.warn("Redirecting to home as worker crashed");
       window.location.assign("/");
