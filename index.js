@@ -1,5 +1,15 @@
 import "./style.css";
 import "./index.css";
+
+document.addEventListener("alpine:init", () => {
+  Alpine.store("profile", {
+    user: undefined,
+  });
+  Alpine.store("stats", {
+    matchmaker: undefined,
+  });
+});
+
 import { Socket } from "phoenix";
 import { wsEndpoint } from "./config";
 import { profileLoaded } from "./profile";
@@ -29,9 +39,6 @@ socket.onOpen(() => {
   channel = socket.channel("matchmaking");
   channel.on("config", (config) => {
     m_config = config;
-    if (Alpine) {
-      Alpine.store("matchmaker").config = config;
-    }
 
     if (!has_enabled_queuebtn) {
       has_enabled_queuebtn = true;
@@ -52,6 +59,10 @@ socket.onOpen(() => {
       };
     }
   });
+
+  channel.on("update-stats", (stats) => {
+    Alpine.store("stats").matchmaker = stats;
+  })
 
   channel.on("begin-accept-game", (body) => {
     queuebtn.textContent = "Accepting Game...";

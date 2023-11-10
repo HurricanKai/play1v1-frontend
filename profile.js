@@ -2,15 +2,6 @@ import Clerk from "@clerk/clerk-js";
 import { clerkKey } from "./config";
 
 var clerk;
-document.addEventListener("alpine:init", () => {
-  Alpine.store("profile", {
-    user: undefined,
-  });
-  Alpine.store("matchmaker", {
-    config: undefined,
-  });
-});
-
 var onProfileLoad = undefined;
 
 export const profileLoaded = new Promise((r) => {
