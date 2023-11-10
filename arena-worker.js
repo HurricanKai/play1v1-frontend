@@ -64,9 +64,9 @@ onmessage = (ev) => {
 
     let arenaChannel;
     let gameState;
+    let game_done = false;
     socket.onOpen(() => {
       let arena = socket.channel("arena:" + arenaId);
-      arena.onClose(() => socket.disconnect());
       arena.onError((e) => console.error("Arena", e));
       arena.on("full_state", (payload) => {
         let players = payload.players;
@@ -88,17 +88,25 @@ onmessage = (ev) => {
         flushGameState();
       });
       arena.on("game-done", ({loser: loser_id}) => {
-        socket.disconnect();
-        postMessage({ type: "game_done", payload: { loser: loser_id}});
+        console.log("got game-done");
+        game_done = true;
+        arenaChannel.leave();
+        postMessage({ type: "game-done", payload: { loser: loser_id}});
       });
       arena.join();
       arenaChannel = arena;
     });
     socket.onClose(() => {
       postMessage({ type: "close" });
+      socket.disconnect(undefined, 1000);
     });
     socket.onError((e) => {
-      console.error("Socket", e);
+      if (game_done) {
+        socket.disconnect(undefined, 1000);
+      }
+      else {
+        console.error("Socket", e);
+      }
     });
 
     console.log("Connecting...")
