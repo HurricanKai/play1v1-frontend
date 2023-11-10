@@ -1,5 +1,6 @@
 import "./style.css";
 import "./game-end.css";
+const params = new URLSearchParams(window.location.search);
 const arenaId = params.get('arenaId');
 const loserId = params.get('loser');
 const myId = params.get('me');
