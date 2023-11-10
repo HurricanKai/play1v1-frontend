@@ -10,6 +10,7 @@ export default defineConfig({
             input: {
                 main: resolve(__dirname, "index.html"),
                 arena: resolve(__dirname, "arena.html"),
+                "game-end": resolve(__dirname, "game-end.html"),
             },
         },
         target: "esnext"
