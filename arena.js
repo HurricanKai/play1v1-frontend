@@ -46,6 +46,7 @@ else {
 
   worker.onmessage = ((ev) => {
     let {type, payload} = ev.data;
+    console.debug("MessageT: " + type);
     if (type === "close") {
       if (game_done) {
         return;
