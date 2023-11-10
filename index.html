@@ -23,6 +23,8 @@
             <span x-text="$store.profile.user.username"></span>
           </template>
         </div>
+        <button id="queuebtn" disabled="true">Loading..</button>
+        <br />
         <div id="matchmakerconfig" x-data>
           <div x-show="!$store.stats.matchmaker">Loading...</div>
           <template x-if="$store.stats.matchmaker">
@@ -38,8 +40,6 @@
             </div>
           </template>
         </div>
-        <button id="queuebtn" disabled="true">Loading..</button>
-        <br />
         <div id="presenceInfo" x-data>
           <div x-show="!$store.presence.matchmaker">Loading...</div>
           <template x-if="$store.presence.matchmaker">
