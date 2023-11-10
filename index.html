@@ -39,6 +39,17 @@
           </template>
         </div>
         <button id="queuebtn" disabled="true">Loading..</button>
+        <br />
+        <div id="presenceInfo" x-data>
+          <div x-show="!$store.presence.matchmaker">Loading...</div>
+          <template x-if="$store.presence.matchmaker">
+            <div>
+              <template x-for="user in $store.presence.matchmaker">
+                <li x-text="user.name"></li>
+              </template>
+            </div>
+          </template>
+        </div>
       </div>
     </div>
     <script type="module" src="/index.js"></script>

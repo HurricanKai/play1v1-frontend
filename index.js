@@ -1,16 +1,7 @@
 import "./style.css";
 import "./index.css";
-
-document.addEventListener("alpine:init", () => {
-  Alpine.store("profile", {
-    user: undefined,
-  });
-  Alpine.store("stats", {
-    matchmaker: undefined,
-  });
-});
-
-import { Socket } from "phoenix";
+import "./alpine-stores.js"
+import { Presence, Socket } from "phoenix";
 import { wsEndpoint } from "./config";
 import { profileLoaded } from "./profile";
 
@@ -33,10 +24,25 @@ let socket = new Socket(wsEndpoint, {
 });
 
 let channel;
+let presence;
+
+function rerenderPresence() {
+  Alpine.store("presence").matchmaker = presence.list((k, p) => ({id: k, name: p.name}));
+}
+
 socket.onOpen(() => {
-  queuebtn.textContent = "Loading Config...";
+  queuebtn.textContent = "Loading Config,...";
+
 
   channel = socket.channel("matchmaking");
+  presence = new Presence(channel, {
+    events: {
+      state: "presence_state"
+    }
+  });
+  presence.onSync(rerenderPresence);
+  presence.onJoin(rerenderPresence);
+  presence.onLeave(rerenderPresence);
   channel.on("config", (config) => {
     m_config = config;
 
