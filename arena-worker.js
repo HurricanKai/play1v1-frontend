@@ -87,11 +87,9 @@ onmessage = (ev) => {
 
         flushGameState();
       });
-      arena.on("game_done", ({loser: loser_id}) => {
+      arena.on("game-done", ({loser: loser_id}) => {
         socket.disconnect();
-        // Like, post a message here that
-        // a) makes the page redirect somewhere else
-        // b) makes the page expect the "close" event.
+        postMessage({ type: "game_done", payload: { loser: loser_id}});
       });
       arena.join();
       arenaChannel = arena;

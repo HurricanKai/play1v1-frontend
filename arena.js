@@ -9,8 +9,6 @@ import './style.css'
 import { clerkKey } from "./config";
 import Clerk from '@clerk/clerk-js';
 
-let stopped = false;
-
 const worker = new Worker(new URL('/arena-worker.js', import.meta.url));
 console.log("Loading Clerk");
 const clerk = new Clerk(clerkKey);
@@ -33,9 +31,6 @@ else {
 
 
   document.addEventListener("keydown",function(e){
-      if (e.code === "KeyR") {
-        stopped = !stopped;
-      }
       worker.postMessage({type: "keydown", payload: e.code});
   });
 
@@ -55,15 +50,21 @@ else {
       console.warn("Redirecting to home as worker crashed");
       window.location.assign("/");
     }
-    else if(type === "render-update") {
-      if (stopped) return;
+    else if (type === "render-update") {
       let {players, bullets, impacts, impact_counter} = payload;
 
       player_group.innerHTML = players;
       counter_group.innerHTML = impact_counter;
       bullet_group.innerHTML = bullets;
       impact_group.innerHTML = impacts;
-    } else {
+    }
+    else if (type === "game-done") {
+      game_done = true;
+      let {loser} = payload;
+      worker.terminate();
+      window.location.assign(`/game-end?arenaId=${arenaId}&loser=${loser}&me=${clerk.user.id}`)
+    }
+    else {
       console.error("Invalid frontend message", {type, payload});
     }
   });
