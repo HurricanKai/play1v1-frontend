@@ -87,7 +87,7 @@ onmessage = (ev) => {
 
         flushGameState();
       });
-      arena.on("game-done", ({loser: loser_id}) => {
+      arena.on("game_done", ({loser: loser_id}) => {
         console.log("got game-done");
         game_done = true;
         arenaChannel.leave();
