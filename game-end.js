@@ -9,6 +9,6 @@ if (!arenaId || !loserId || !myId) {
   window.location.assign("/");
 }
 
-const isWin = loserId == myId;
+const isWin = loserId != myId;
 
 document.getElementById('data').innerHTML = `<p>You ${isWin ? 'Win' : 'Loose'}</p><a id="continue" href="/">Continue</a>`
