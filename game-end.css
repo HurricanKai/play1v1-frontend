@@ -24,22 +24,26 @@ body {
 #data {
     all: unset;
     background-color: #222222;
-    padding: 32px;
     border-radius: 5px;
     color: white;
     font-size: xx-large;
     width: fit-content;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 32px 100px;
 }
 
 #continue {
     all: unset;
     background-color: #8080ff;
-    padding: 16px;
     border-radius: 5px;
     color: white;
-    font-size: x-large;
     width: fit-content;
     user-select: none;
+    padding: 13px;
+    font-size: 18px;
 }
 
 #continue:hover {
